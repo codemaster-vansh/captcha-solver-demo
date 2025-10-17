@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple captcha solver that retrieves and solves captcha images.">
+    <meta property="og:title" content="Captcha Solver">
+    <meta property="og:description" content="Solve captcha images quickly and efficiently.">
+    <meta property="og:image" content="https://example.com/image.png">
+    <meta property="og:url" content="https://example.com">
+    <title>Captcha Solver</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #FF5722;
+            --background-light: #FFFFFF;
+            --background-dark: #121212;
+            --text-light: #FFFFFF;
+            --text-dark: #000000;
+            --spacing-unit: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: background-color 0.3s;
+        }
+
+        header {
+            margin-bottom: var(--spacing-unit);
+        }
+
+        main {
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: var(--spacing-unit);
+        }
+
+        .loading {
+            display: none;
+            font-size: 1.5rem;
+            margin-top: var(--spacing-unit);
+        }
+
+        .error {
+            color: var(--secondary);
+        }
+
+        .success {
+            color: var(--primary);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--background-dark);
+                color: var(--text-light);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Captcha Solver</h1>
+    </header>
+    <main>
+        <section>
+            <img id="captchaImage" src="" alt="Captcha Image" aria-label="Captcha image to be solved">
+            <div class="loading" id="loadingMessage">Solving captcha, please wait...</div>
+            <div id="result" aria-live="polite"></div>
+            <div class="error" id="errorMessage" role="alert"></div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2023 Captcha Solver. All rights reserved.</p>
+    </footer>
+    <script>
+        'use strict';
+
+        const captchaImage = document.getElementById('captchaImage');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const result = document.getElementById('result');
+        const errorMessage = document.getElementById('errorMessage');
+
+        const parseUrlParams = () => {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('url') || 'https://example.com/image.png'; // Default URL
+        };
+
+        const displayCaptcha = (url) => {
+            captchaImage.src = url;
+        };
+
+        const solveCaptcha = async (url) => {
+            loadingMessage.style.display = 'block';
+            result.textContent = '';
+            errorMessage.textContent = '';
+
+            try {
+                // Simulate captcha solving process
+                const response = await new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve('Solved Captcha Text'); // Simulated solved text
+                    }, 15000); // 15 seconds
+                });
+
+                loadingMessage.style.display = 'none';
+                result.textContent = response;
+            } catch (error) {
+                loadingMessage.style.display = 'none';
+                errorMessage.textContent = 'Failed to solve captcha. Please try again.';
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const captchaUrl = parseUrlParams();
+            displayCaptcha(captchaUrl);
+            solveCaptcha(captchaUrl);
+        });
+    </script>
+</body>
+</html>
